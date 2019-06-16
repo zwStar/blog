@@ -26,25 +26,25 @@ with(this){return _c('div',[_t("default",[_v("我是默认内容")])],2)}
 这里`_v`就是创建普通文本节点，主要看`_t`函数，这里`_t`也就是`renderSlot`函数的简写
 
 ```
-  function installRenderHelpers (target) {
-    ...
-    target._t = renderSlot;
-    ...
-  }
+function installRenderHelpers (target) {
+  ...
+  target._t = renderSlot;
+  ...
+}
 ```
 
 ```
- function renderSlot (
-    name,
-    fallback,
-    props,
-    bindObject
-  ) {
-    var scopedSlotFn = this.$scopedSlots[name];
-    var nodes;
-    nodes = scopedSlotFn(props) || fallback;
-    return nodes;
-  }
+function renderSlot (
+  name,
+  fallback,
+  props,
+  bindObject
+) {
+  var scopedSlotFn = this.$scopedSlots[name];
+  var nodes;
+  nodes = scopedSlotFn(props) || fallback;
+  return nodes;
+}
 ```
 
 这里把函数`renderSlot`函数简化下，其它情况先不看，这里会把`name`和`fallback`传进来，
@@ -65,19 +65,19 @@ Vue.component('button-counter', {
 那么使用时
 ```
 new Vue({
-	el: '#app',
-	template: '<button-counter><span slot="header">我是slot传入内容</span></button-counter>'
+  el: '#app',
+  template: '<button-counter><span slot="header">我是slot传入内容</span></button-counter>'
 })
 ```
 
 但是上面的用法`slot`在2.6.0版本已经废弃，提供了新的`v-slot`代替，但是你仍然可以这么写，源码中依然保存对slot的兼容处理，我们看下用`v-slot`的写法以及需要注意的地方
 ```
 new Vue({
-	el: '#app',
-	template: '<button-counter><template v-slot:header><span>我是slot传入内容</span></template></button-counter>'
+  el: '#app',
+  template: '<button-counter><template v-slot:header><span>我是slot传入内容</span></template></button-counter>'
 })
 ```
-注意这`里v-slot`需要使用在`template`，不可再跟上面一样直接作用于`span`标签上面
+注意这里`v-slot`需要使用在`template`，不可再跟上面一样直接作用于`span`标签上面
 
 回到上面说的`renderSlot`函数，`name`这里是默认值`default`，第二个参数`fallback`就是我们在组件中的`slot`节点的默认值
 ```
